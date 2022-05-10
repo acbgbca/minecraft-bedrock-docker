@@ -1,0 +1,48 @@
+# Docker
+# Build a Docker image
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+
+trigger:
+- master
+
+resources:
+- repo: self
+
+variables:
+  tag: '$(Build.BuildId)'
+
+stages:
+- stage: Build
+  displayName: Check versions
+  jobs:
+  - job: check
+    displayName: Check
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+    - bash: |
+         URL=`curl -H "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36" https://www.minecraft.net/en-us/download/server/bedrock|grep -o "https://minecraft.azureedge.net/bin-linux/bedrock-server-.*.zip"`
+         VERSION=`echo $URL|grep -o "[0-9.]*[0-9]"`
+         MATCHING=`curl https://nexusdocker.local/v2/acbgbca/minecraft-bedrock-docker/tags/list|grep "$VERSION"`
+         CREATE=${MATCHING:true}
+      name: check
+  - job: Build
+    dependsOn: check
+    variables:
+      URL: $[ dependencies.check.outputs['check.URL'] ]
+      VERSION: $[ dependencies.check.outputs['check.VERSION'] ]
+    condition: eq(dependencies.check.outputs['check.CREATE'], 'true')
+    displayName: Build
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+    - bash: |
+        curl $URL
+    - task: Docker@2
+      displayName: Build an image
+      inputs:
+        command: build
+        dockerfile: '$(Build.SourcesDirectory)/dockerfile'
+        tags: |
+          latest
+          $(VERSION)
