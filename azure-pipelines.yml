@@ -1,7 +1,3 @@
-# Docker
-# Build a Docker image
-# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
-
 pool:
   name: SelfHosted
 
@@ -21,7 +17,7 @@ stages:
     - bash: |
          URL=`curl -H "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36" https://www.minecraft.net/en-us/download/server/bedrock|grep -o "https://minecraft.azureedge.net/bin-linux/bedrock-server-.*.zip"`
          VERSION=`echo $URL|grep -o "[0-9.]*[0-9]"`
-         MATCHING=`curl https://nexusdocker.local/v2/acbgbca/minecraft-bedrock-docker/tags/list|grep "$VERSION"`
+         MATCHING=`curl http://dockerregistry:5000/v2/acbgbca/minecraft-bedrock-docker/tags/list|grep "$VERSION"`
          CREATE=${MATCHING:true}
       name: check
   - job: Build
@@ -35,9 +31,13 @@ stages:
     - bash: |
         curl $URL
     - task: Docker@2
+      inputs:
+        containerRegistry: 'DockerHub'
+        command: 'login'
+    - task: Docker@2
       displayName: Build an image
       inputs:
-        command: build
+        command: buildAndPush
         dockerfile: '$(Build.SourcesDirectory)/dockerfile'
         tags: |
           latest
