@@ -2,14 +2,14 @@
 # Build a Docker image
 # https://docs.microsoft.com/azure/devops/pipelines/languages/docker
 
+pool:
+  name: default
+
 trigger:
 - master
 
 resources:
 - repo: self
-
-variables:
-  tag: '$(Build.BuildId)'
 
 stages:
 - stage: Build
