@@ -46,7 +46,7 @@ stages:
     displayName: Build
     steps:
     - bash: |
-        wget $(URL)
+        curl $(URL) --output bedrock-server-$(VERSION).zip
     - task: Docker@2
       inputs:
         containerRegistry: 'DockerHub'
