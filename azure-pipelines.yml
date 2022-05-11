@@ -18,21 +18,21 @@ stages:
          URL=`curl -H "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36" https://www.minecraft.net/en-us/download/server/bedrock|grep -o "https://minecraft.azureedge.net/bin-linux/bedrock-server-.*.zip"`
          VERSION=`echo $URL|grep -o "[0-9.]*[0-9]"`
          MATCHING=`curl http://dockerregistry:5000/v2/acbgbca/minecraft-bedrock-docker/tags/list|grep "$VERSION"`
-         CREATE=${MATCHING:true}
-         echo "URL: $URL \n"
-         echo "VERSION: $VERSION \n"
-         echo "MATCHING: $MATCHING \n"
-         echo "CREATE: $CREATE \n"
+         CREATE=${MATCHING:-true}
+         echo "URL: $URL"
+         echo "VERSION: $VERSION"
+         echo "MATCHING: $MATCHING"
+         echo "CREATE: $CREATE"
       name: check
   - job: debug
-    displayName: debug
+    dependsOn: check
     variables:
       URL: $[ dependencies.check.outputs['check.URL'] ]
       VERSION: $[ dependencies.check.outputs['check.VERSION'] ]
     steps:
     - bash: |
-        echo "URL: $URL \n"
-        echo "VERSION: $VERSION \n"
+        echo "URL: $URL"
+        echo "VERSION: $VERSION"
   - job: Build
     dependsOn: check
     variables:
