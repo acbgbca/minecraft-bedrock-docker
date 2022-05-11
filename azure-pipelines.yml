@@ -19,10 +19,14 @@ stages:
          VERSION=`echo $URL|grep -o "[0-9.]*[0-9]"`
          MATCHING=`curl http://dockerregistry:5000/v2/acbgbca/minecraft-bedrock-docker/tags/list|grep "$VERSION"`
          CREATE=${MATCHING:-true}
-         echo "URL: $URL"
-         echo "VERSION: $VERSION"
+         # Store values for use in later stages
+         echo "##vso[task.setvariable variable=URL;isOutput=true]$URL"
+         echo "##vso[task.setvariable variable=VERSION;isOutput=true]$VERSION"
+         echo "##vso[task.setvariable variable=CREATE;isOutput=true]$CREATE"
+         echo "URL: $(URL)"
+         echo "VERSION: $(VERSION)"
          echo "MATCHING: $MATCHING"
-         echo "CREATE: $CREATE"
+         echo "CREATE: $(CREATE)"
       name: check
   - job: debug
     dependsOn: check
@@ -31,8 +35,8 @@ stages:
       VERSION: $[ dependencies.check.outputs['check.VERSION'] ]
     steps:
     - bash: |
-        echo "URL: $URL"
-        echo "VERSION: $VERSION"
+        echo "URL: $(URL)"
+        echo "VERSION: $(VERSION)"
   - job: Build
     dependsOn: check
     variables:
@@ -42,7 +46,7 @@ stages:
     displayName: Build
     steps:
     - bash: |
-        curl $URL
+        curl $(URL)
     - task: Docker@2
       inputs:
         containerRegistry: 'DockerHub'
