@@ -46,7 +46,9 @@ stages:
     displayName: Build
     steps:
     - bash: |
-        curl $(URL) --output $(Build.SourcesDirectory)/bedrock-server-$(VERSION).zip
+        curl -H "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36" $(URL) --output $(Build.SourcesDirectory)/bedrock-server-$(VERSION).zip
+        ls -la
+        ls -la $(Build.SourcesDirectory)/*
     - task: Docker@2
       inputs:
         containerRegistry: 'DockerHub'
