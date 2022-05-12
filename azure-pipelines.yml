@@ -57,6 +57,9 @@ stages:
       inputs:
         command: buildAndPush
         dockerfile: '$(Build.SourcesDirectory)/dockerfile'
+        repository: acbca/minecraft-bedrock
+        addPipelineData: false
+        addBaseImageData: false
         tags: |
           latest
           $(VERSION)
