@@ -48,9 +48,9 @@ stages:
   - job: Build_Main
     dependsOn: version
     variables:
-      URL: $[ dependencies.version.outputs['version.URL'] ]
-      VERSION: $[ dependencies.version.outputs['version.VERSION'] ]
-    condition: and(eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(dependencies.version.outputs['version.CREATE'], 'true'))
+      URL: $[ dependencies.version.outputs['check.URL'] ]
+      VERSION: $[ dependencies.version.outputs['check.VERSION'] ]
+    condition: and(eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(dependencies.version.outputs['check.CREATE'], 'true'))
     displayName: Build Main
     steps:
     - bash: |
@@ -76,7 +76,7 @@ stages:
     variables:
       URL: $[ dependencies.version.outputs['check.URL'] ]
     condition: eq(variables['Build.SourceBranch'], 'refs/heads/develop')
-    displayName: Build
+    displayName: Build Develop
     steps:
     - bash: |
         curl -H "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36" $(URL) --output $(Build.SourcesDirectory)/bedrock-server.zip
