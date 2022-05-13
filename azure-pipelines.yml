@@ -6,6 +6,7 @@ trigger:
     include:
     - master
     - main
+    - develop
   paths:
     exclude:
     - readme.md
