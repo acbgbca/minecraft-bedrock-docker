@@ -45,16 +45,12 @@ stages:
          echo "MATCHING: $MATCHING"
          echo "CREATE: $CREATE"
       name: check
-  - job: check
-    displayName: Check if build is required
-    dependsOn: version
-    condition: eq(dependencies.version.outputs['version.CREATE'], 'true')
   - job: Build_Main
-    dependsOn: check
+    dependsOn: version
     variables:
       URL: $[ dependencies.version.outputs['version.URL'] ]
       VERSION: $[ dependencies.version.outputs['version.VERSION'] ]
-    condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
+    condition: and(eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(dependencies.version.outputs['version.CREATE'], 'true'))
     displayName: Build Main
     steps:
     - bash: |
@@ -76,7 +72,7 @@ stages:
           latest
           $(VERSION)
   - job: Build_Develop
-    dependsOn: check
+    dependsOn: version
     variables:
       URL: $[ dependencies.version.outputs['check.URL'] ]
     condition: eq(variables['Build.SourceBranch'], 'refs/heads/develop')
