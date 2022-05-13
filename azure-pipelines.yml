@@ -7,8 +7,6 @@ trigger:
     - master
     - main
   paths:
-    include:
-    - *
     exclude:
     - readme.md
     - LICENSE
