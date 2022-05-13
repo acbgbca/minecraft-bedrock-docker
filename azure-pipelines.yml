@@ -2,7 +2,17 @@ pool:
   name: SelfHosted
 
 trigger:
-- master
+  branches:
+    include:
+    - master
+    - main
+  paths:
+    include:
+    - *
+    exclude:
+    - readme.md
+    - LICENSE
+    - .gitignore
 
 schedules:
 - cron: "0 0 * * *"
@@ -10,6 +20,7 @@ schedules:
   branches:
     include:
     - master
+    - main
   always: true
 
 resources:
@@ -19,8 +30,8 @@ stages:
 - stage: Build
   displayName: Check versions
   jobs:
-  - job: check
-    displayName: Check
+  - job: version
+    displayName: Get Latest Version
     steps:
     - bash: |
          URL=`curl -H "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36" https://www.minecraft.net/en-us/download/server/bedrock|grep -o "https://minecraft.azureedge.net/bin-linux/bedrock-server-.*.zip"`
@@ -36,13 +47,17 @@ stages:
          echo "MATCHING: $MATCHING"
          echo "CREATE: $CREATE"
       name: check
-  - job: Build
+  - job: check
+    displayName: Check if build is required
+    dependsOn: version
+    condition: eq(dependencies.version.outputs['version.CREATE'], 'true')
+  - job: Build Main
     dependsOn: check
     variables:
-      URL: $[ dependencies.check.outputs['check.URL'] ]
-      VERSION: $[ dependencies.check.outputs['check.VERSION'] ]
-    condition: eq(dependencies.check.outputs['check.CREATE'], 'true')
-    displayName: Build
+      URL: $[ dependencies.version.outputs['version.URL'] ]
+      VERSION: $[ dependencies.version.outputs['version.VERSION'] ]
+    condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
+    displayName: Build Main
     steps:
     - bash: |
         curl -H "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36" $(URL) --output $(Build.SourcesDirectory)/bedrock-server.zip
@@ -62,3 +77,27 @@ stages:
         tags: |
           latest
           $(VERSION)
+  - job: Build Develop
+    dependsOn: check
+    variables:
+      URL: $[ dependencies.version.outputs['check.URL'] ]
+    condition: eq(variables['Build.SourceBranch'], 'refs/heads/develop')
+    displayName: Build
+    steps:
+    - bash: |
+        curl -H "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36" $(URL) --output $(Build.SourcesDirectory)/bedrock-server.zip
+        ls -la
+    - task: Docker@2
+      inputs:
+        containerRegistry: 'DockerHub'
+        command: 'login'
+    - task: Docker@2
+      displayName: Build an image
+      inputs:
+        command: buildAndPush
+        dockerfile: '$(Build.SourcesDirectory)/dockerfile'
+        repository: acbca/minecraft-bedrock
+        addPipelineData: false
+        addBaseImageData: false
+        tags: |
+          alpha
