@@ -49,7 +49,7 @@ stages:
     displayName: Check if build is required
     dependsOn: version
     condition: eq(dependencies.version.outputs['version.CREATE'], 'true')
-  - job: Build Main
+  - job: Build_Main
     dependsOn: check
     variables:
       URL: $[ dependencies.version.outputs['version.URL'] ]
@@ -75,7 +75,7 @@ stages:
         tags: |
           latest
           $(VERSION)
-  - job: Build Develop
+  - job: Build_Develop
     dependsOn: check
     variables:
       URL: $[ dependencies.version.outputs['check.URL'] ]
