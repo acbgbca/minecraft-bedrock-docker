@@ -1,13 +1,15 @@
 FROM ubuntu:18.04
+ARG URL
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates \
+    curl \
     unzip \
     libssl1.1 \
   && rm -rf /var/lib/apt/lists/*
 
-ADD bedrock-server.zip /opt
-
-RUN mkdir /opt/minecraft && \
+RUN mkdir -p /opt/minecraft && \
+    curl $URL --output /opt/bedrock-server.zip && \
     unzip /opt/bedrock-server.zip -d /opt/minecraft && \
     rm /opt/bedrock-server.zip
 

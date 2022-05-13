@@ -6,6 +6,7 @@ trigger:
     include:
     - master
     - main
+    - develop
   paths:
     exclude:
     - readme.md
@@ -53,21 +54,28 @@ stages:
     condition: and(eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(dependencies.version.outputs['check.CREATE'], 'true'))
     displayName: Build Main
     steps:
-    - bash: |
-        curl -H "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36" $(URL) --output $(Build.SourcesDirectory)/bedrock-server.zip
-        ls -la
     - task: Docker@2
       inputs:
         containerRegistry: 'DockerHub'
         command: 'login'
     - task: Docker@2
-      displayName: Build an image
+      displayName: Build image
       inputs:
-        command: buildAndPush
+        command: build
         dockerfile: '$(Build.SourcesDirectory)/dockerfile'
         repository: acbca/minecraft-bedrock
         addPipelineData: false
         addBaseImageData: false
+        arguments: --build-arg URL=$(URL)
+        tags: |
+          latest
+          $(VERSION)
+    - task: Docker@2
+      displayName: Push image
+      inputs:
+        command: push
+        dockerfile: '$(Build.SourcesDirectory)/dockerfile'
+        repository: acbca/minecraft-bedrock
         tags: |
           latest
           $(VERSION)
@@ -78,20 +86,26 @@ stages:
     condition: eq(variables['Build.SourceBranch'], 'refs/heads/develop')
     displayName: Build Develop
     steps:
-    - bash: |
-        curl -H "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36" $(URL) --output $(Build.SourcesDirectory)/bedrock-server.zip
-        ls -la
     - task: Docker@2
       inputs:
         containerRegistry: 'DockerHub'
         command: 'login'
     - task: Docker@2
-      displayName: Build an image
+      displayName: Build image
       inputs:
-        command: buildAndPush
+        command: build
         dockerfile: '$(Build.SourcesDirectory)/dockerfile'
         repository: acbca/minecraft-bedrock
         addPipelineData: false
         addBaseImageData: false
+        arguments: --build-arg URL=$(URL)
+        tags: |
+          alpha
+    - task: Docker@2
+      displayName: Push image
+      inputs:
+        command: push
+        dockerfile: '$(Build.SourcesDirectory)/dockerfile'
+        repository: acbca/minecraft-bedrock
         tags: |
           alpha
