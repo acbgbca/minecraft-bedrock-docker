@@ -1,6 +1,9 @@
 FROM ubuntu:18.04
 ARG URL
 
+LABEL org.opencontainers.image.source='https://github.com/acbgbca/minecraft-bedrock-docker', \
+      org.opencontainers.image.title='Minecraft Bedrock Server - Docker'
+
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
     curl \
