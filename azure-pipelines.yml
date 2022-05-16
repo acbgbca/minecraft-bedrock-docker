@@ -51,7 +51,7 @@ stages:
     variables:
       URL: $[ dependencies.version.outputs['check.URL'] ]
       VERSION: $[ dependencies.version.outputs['check.VERSION'] ]
-    condition: and(eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(dependencies.version.outputs['check.CREATE'], 'true'))
+    condition: or(and(eq(variables['Build.Reason'], 'Schedule'), eq(dependencies.version.outputs['check.CREATE'], 'true')), and(eq(variables['Build.Reason'], 'PullRequest'), eq(variables['Build.SourceBranchName'], 'master')))
     displayName: Build Main
     steps:
     - task: Docker@2
