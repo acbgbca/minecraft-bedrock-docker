@@ -1,14 +1,21 @@
 #!/bin/bash
 
+# Setup user
+USER=minecraft
+UID=${UID:-1000}
+GID=${GID:-1000}
+
+groupmod -o -g "$GID" $USER
+usermod -o -u "$UID" $USER
+
 # If the config directory is empty, initialise with the contents from orig_cfg
-if [ -z "$(ls -A /config)" ]; then
+if [ -z "$(ls /config)" ]; then
     echo "Initialising config"
     cp -v /opt/minecraft/orig_cfg/* /config
+    chown -RP $USER.$USER /config
 fi
 
 # Create symbolic links from the files in /config to the minecraft directory
 ln -sf /config/* /opt/minecraft
 
-export LD_LIBRARY_PATH=.
-
-exec ./bedrock_server
+su -c "export LD_LIBRARY_PATH=. && exec ./bedrock_server" $USER

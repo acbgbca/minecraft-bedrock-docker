@@ -64,9 +64,8 @@ stages:
         command: build
         dockerfile: '$(Build.SourcesDirectory)/dockerfile'
         repository: acbca/minecraft-bedrock
-        addPipelineData: false
-        addBaseImageData: false
         arguments: --build-arg URL=$(URL)
+        arguments: --build-arg VERSION=$(VERSION)
         tags: |
           latest
           $(VERSION)
@@ -96,9 +95,8 @@ stages:
         command: build
         dockerfile: '$(Build.SourcesDirectory)/dockerfile'
         repository: acbca/minecraft-bedrock
-        addPipelineData: false
-        addBaseImageData: false
         arguments: --build-arg URL=$(URL)
+        arguments: --build-arg VERSION=$(VERSION)
         tags: |
           alpha
     - task: Docker@2
