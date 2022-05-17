@@ -64,7 +64,7 @@ stages:
       displayName: Build image
       inputs:
         command: build
-        dockerfile: '$(Build.SourcesDirectory)/dockerfile'
+        dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
         repository: acbca/minecraft-bedrock
         arguments: --build-arg URL=$(URL) --build-arg VERSION=$(VERSION)
         tags: |
@@ -74,7 +74,7 @@ stages:
       displayName: Push image
       inputs:
         command: push
-        dockerfile: '$(Build.SourcesDirectory)/dockerfile'
+        dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
         repository: acbca/minecraft-bedrock
         tags: |
           latest
@@ -83,6 +83,7 @@ stages:
     dependsOn: version
     variables:
       URL: $[ dependencies.version.outputs['check.URL'] ]
+      VERSION: $[ dependencies.version.outputs['check.VERSION'] ]
     condition: eq(variables['Build.SourceBranch'], 'refs/heads/develop')
     displayName: Build Develop
     steps:
