@@ -97,7 +97,7 @@ stages:
       displayName: Build image
       inputs:
         command: build
-        dockerfile: '$(Build.SourcesDirectory)/dockerfile'
+        dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
         repository: acbca/minecraft-bedrock
         arguments: --build-arg URL=$(URL) --build-arg VERSION=$(VERSION)
         tags: |
@@ -106,7 +106,7 @@ stages:
       displayName: Push image
       inputs:
         command: push
-        dockerfile: '$(Build.SourcesDirectory)/dockerfile'
+        dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
         repository: acbca/minecraft-bedrock
         tags: |
           alpha
