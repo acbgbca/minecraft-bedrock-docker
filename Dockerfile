@@ -14,6 +14,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libssl1.1 \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/* \
+  && umask 0002 \
   && mkdir -p /opt/minecraft \
   && mkdir -p /opt/minecraft/orig_cfg \
   && mkdir -p /config \
@@ -28,6 +29,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY start.sh /opt/minecraft
 
 RUN curl $URL --output /opt/bedrock-server.zip \
+  && umask 0002 \
   && unzip /opt/bedrock-server.zip -d /opt/minecraft \
   && rm /opt/bedrock-server.zip \
   && chown -R $USERNAME.$GROUPNAME /opt/minecraft /config /worlds \

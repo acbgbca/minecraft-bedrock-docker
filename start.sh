@@ -8,6 +8,7 @@ if [ "$EULA" != TRUE ]; then
 fi
 
 # Setup user
+umask 0002
 USER=minecraft
 UID=${UID:-1000}
 GID=${GID:-1000}
@@ -25,4 +26,4 @@ fi
 # Create symbolic links from the files in /config to the minecraft directory
 ln -sf /config/* /opt/minecraft
 
-su -c "export LD_LIBRARY_PATH=. && exec ./bedrock_server" $USER
+su -c "export LD_LIBRARY_PATH=. && umask 0002 && exec ./bedrock_server" $USER
