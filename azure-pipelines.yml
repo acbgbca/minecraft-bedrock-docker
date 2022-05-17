@@ -12,6 +12,8 @@ trigger:
     - readme.md
     - LICENSE
     - .gitignore
+    - buildlocal.sh
+    - Dockerfile-local
 
 pr: none
 
