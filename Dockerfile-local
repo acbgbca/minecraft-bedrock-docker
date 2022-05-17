@@ -27,8 +27,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 COPY start.sh /opt/minecraft
 
-RUN curl $URL --output /opt/bedrock-server.zip \
-  && unzip /opt/bedrock-server.zip -d /opt/minecraft \
+COPY bedrock-server.zip /opt
+
+RUN unzip /opt/bedrock-server.zip -d /opt/minecraft \
   && rm /opt/bedrock-server.zip \
   && chown -R $USERNAME.$GROUPNAME /opt/minecraft /config /worlds \
   && mv /opt/minecraft/*.json /opt/minecraft/*.properties /opt/minecraft/orig_cfg/ \

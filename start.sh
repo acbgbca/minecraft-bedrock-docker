@@ -1,5 +1,12 @@
 #!/bin/bash
 
+if [ "$EULA" != TRUE ]; then
+  echo
+  echo "EULA must be set to TRUE to indicate agreement with the Minecraft End User License. See https://minecraft.net/terms"
+  echo
+  exit 1
+fi
+
 # Setup user
 USER=minecraft
 UID=${UID:-1000}
