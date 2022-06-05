@@ -59,6 +59,7 @@ stages:
       URL: $[ dependencies.version.outputs['check.URL'] ]
       VERSION: $[ dependencies.version.outputs['check.VERSION'] ]
       VERSION_MAJOR: $[ dependencies.version.outputs['check.VERSION_MAJOR'] ]
+      DOCKER_BUILDKIT: 1
     condition: or(and(eq(variables['Build.Reason'], 'Schedule'), eq(dependencies.version.outputs['check.CREATE'], 'true')), and(eq(variables['Build.Reason'], 'IndividualCI'), eq(variables['Build.SourceBranchName'], 'master')))
     displayName: Build Main
     steps:
@@ -93,6 +94,7 @@ stages:
       URL: $[ dependencies.version.outputs['check.URL'] ]
       VERSION: $[ dependencies.version.outputs['check.VERSION'] ]
       VERSION_MAJOR: $[ dependencies.version.outputs['check.VERSION_MAJOR'] ]
+      DOCKER_BUILDKIT: 1
     condition: eq(variables['Build.SourceBranch'], 'refs/heads/develop')
     displayName: Build Develop
     steps:
