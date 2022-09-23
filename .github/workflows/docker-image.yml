@@ -24,7 +24,11 @@ jobs:
           VERSION=`echo $URL|grep -o "[0-9.]*[0-9]"`
           VERSION_MAJOR=`echo $VERSION|grep -o "[0-9]*\.[0-9]*"|head -1`
           MATCHING=`docker image ls acbca/minecraft-bedrock:*|grep "$VERSION"`
-          CREATE=${MATCHING:-true}
+          if [ -z "${MATCHING}" ]; then
+            CREATE="true"
+          else
+            CREATE="false"
+          fi
           # Store values for use in later stages
           echo "::set-output name=url::$URL"
           echo "::set-output name=version::$VERSION"
