@@ -13,23 +13,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: |
-        # Make sure we have the latest version
-        docker pull acbca/minecraft-bedrock
-        URL=`curl -H "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36" https://www.minecraft.net/en-us/download/server/bedrock|grep -o "https://minecraft.azureedge.net/bin-linux/bedrock-server-.*.zip"`
-        VERSION=`echo $URL|grep -o "[0-9.]*[0-9]"`
-        VERSION_MAJOR=`echo $VERSION|grep -o "[0-9]*\.[0-9]*"|head -1`
-        MATCHING=`docker image ls acbca/minecraft-bedrock:*|grep "$VERSION"`
-        CREATE=${MATCHING:-true}
-        # Store values for use in later stages
-        echo "URL=$URL" >> $GITHUB_ENV
-        echo "VERSION=$VERSION" >> $GITHUB_ENV
-        echo "VERSION_MAJOR=$VERSION_MAJOR" >> $GITHUB_ENV
-        echo "CREATE=$CREATE" >> $GITHUB_ENV
-        echo "URL: $URL"
-        echo "VERSION: $VERSION"
-        echo "MAJOR VERSION: $VERSION_MAJOR"
-        echo "MATCHING: $MATCHING"
-        echo "CREATE: $CREATE"
+          # Make sure we have the latest version
+          docker pull acbca/minecraft-bedrock
+          URL=`curl -H "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36" https://www.minecraft.net/en-us/download/server/bedrock|grep -o "https://minecraft.azureedge.net/bin-linux/bedrock-server-.*.zip"`
+          VERSION=`echo $URL|grep -o "[0-9.]*[0-9]"`
+          VERSION_MAJOR=`echo $VERSION|grep -o "[0-9]*\.[0-9]*"|head -1`
+          MATCHING=`docker image ls acbca/minecraft-bedrock:*|grep "$VERSION"`
+          CREATE=${MATCHING:-true}
+          # Store values for use in later stages
+          echo "URL=$URL" >> $GITHUB_ENV
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "VERSION_MAJOR=$VERSION_MAJOR" >> $GITHUB_ENV
+          echo "CREATE=$CREATE" >> $GITHUB_ENV
+          echo "URL: $URL"
+          echo "VERSION: $VERSION"
+          echo "MAJOR VERSION: $VERSION_MAJOR"
+          echo "MATCHING: $MATCHING"
+          echo "CREATE: $CREATE"
 jobs:
   build-main:
     needs: check-version
