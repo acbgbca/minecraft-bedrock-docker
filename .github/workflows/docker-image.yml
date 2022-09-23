@@ -12,7 +12,8 @@ jobs:
   check-version:
     runs-on: ubuntu-latest
     steps:
-      - run: |
+      - id: version
+        run: |
           # Make sure we have the latest version
           docker pull acbca/minecraft-bedrock
           URL=`curl -H "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36" https://www.minecraft.net/en-us/download/server/bedrock|grep -o "https://minecraft.azureedge.net/bin-linux/bedrock-server-.*.zip"`
@@ -21,15 +22,20 @@ jobs:
           MATCHING=`docker image ls acbca/minecraft-bedrock:*|grep "$VERSION"`
           CREATE=${MATCHING:-true}
           # Store values for use in later stages
-          echo "URL=$URL" >> $GITHUB_ENV
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
-          echo "VERSION_MAJOR=$VERSION_MAJOR" >> $GITHUB_ENV
-          echo "CREATE=$CREATE" >> $GITHUB_ENV
+          echo "::set-output name=url::$URL"
+          echo "::set-output name=version::$VERSION"
+          echo "::set-output name=version_major::$VERSION_MAJOR"
+          echo "::set-output name=create::$CREATE"
           echo "URL: $URL"
           echo "VERSION: $VERSION"
           echo "MAJOR VERSION: $VERSION_MAJOR"
           echo "MATCHING: $MATCHING"
           echo "CREATE: $CREATE"
+    outputs: 
+      url: ${{steps.version.outputs.url}}
+      version: ${{steps.version.outputs.version}}
+      version_major: ${{steps.version.outputs.version_major}}
+      create: ${{steps.version.outputs.create}}
   build-main:
     needs: check-version
     if: env.create == 'true'
@@ -50,8 +56,8 @@ jobs:
           push: true
           tags: |
             acbca/minecraft-bedrock:latest
-            acbca/minecraft-bedrock:${{env.VERSION}}
-            acbca/minecraft-bedrock:${{env.MAJOR_VERSION}}
+            acbca/minecraft-bedrock:${{needs.version.outputs.version}}
+            acbca/minecraft-bedrock:${{needs.version.outputs.major_version}}
           build-args: |
-            URL=${{env.URL}}
-            VERSION=${{env.VERSION}}
+            URL=${{needs.version.outputs.url}}
+            VERSION=${{needs.version.outputs.version}}
