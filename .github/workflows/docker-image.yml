@@ -30,7 +30,6 @@ jobs:
           echo "MAJOR VERSION: $VERSION_MAJOR"
           echo "MATCHING: $MATCHING"
           echo "CREATE: $CREATE"
-jobs:
   build-main:
     needs: check-version
     if: env.create == 'true'
