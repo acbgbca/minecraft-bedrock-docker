@@ -46,7 +46,7 @@ jobs:
       create: ${{steps.version.outputs.create}}
   build-main:
     needs: check-version
-    if: ${{ ${{needs.version.ouputs.create}} == 'true' }}
+    if: needs.check-version.ouputs.create == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
