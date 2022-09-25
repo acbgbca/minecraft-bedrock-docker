@@ -1,0 +1,106 @@
+name: Minecraft Bedrock Docker
+
+on:
+  schedule:
+    - cron: "0 0 * * *"
+  push:
+    branches:
+      - 'main'
+      - 'master'
+      - 'feature/16-github-actions'
+      - 'develop'
+
+jobs:
+  check-version:
+    runs-on: ubuntu-latest
+    steps:
+      - id: version
+        shell: bash
+        run: |
+          # echo on for debugging
+          set -x
+          # Don't die on error (docker pull returns an error if the version doesn't exist)
+          set +e
+          URL=`curl -H "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36" https://www.minecraft.net/en-us/download/server/bedrock|grep -o "https://minecraft.azureedge.net/bin-linux/bedrock-server-.*.zip"`
+          VERSION=`echo $URL|grep -o "[0-9.]*[0-9]"`
+          VERSION_MAJOR=`echo $VERSION|grep -o "[0-9]*\.[0-9]*"|head -1`
+          # Check for version
+          MATCHING=$(docker pull acbca/minecraft-bedrock:$VERSION)
+          if [ -z "$MATCHING" ]; then
+            CREATE="true"
+          else
+            CREATE="false"
+          fi
+          # Store values for use in later stages
+          echo "::set-output name=url::$URL"
+          echo "::set-output name=version::$VERSION"
+          echo "::set-output name=version_major::$VERSION_MAJOR"
+          echo "::set-output name=create::$CREATE"
+          echo "URL: $URL"
+          echo "VERSION: $VERSION"
+          echo "MAJOR VERSION: $VERSION_MAJOR"
+          echo "CREATE: $CREATE"
+    outputs: 
+      url: ${{steps.version.outputs.url}}
+      version: ${{steps.version.outputs.version}}
+      version_major: ${{steps.version.outputs.version_major}}
+      create: ${{steps.version.outputs.create}}
+  debug:
+    needs: check-version
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "Create: ${{needs.check-version.outputs.create}}"
+          echo "URL: ${{needs.check-version.outputs.url}}"
+          echo "Version: ${{needs.check-version.outputs.version}}"
+          echo "Major Version: ${{needs.check-version.outputs.version_major}}"
+  build-main:
+    needs: check-version
+    if: needs.check-version.outputs.create == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        # Workaround: https://github.com/docker/build-push-action/issues/461
+      - name: Setup Docker buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build and push
+        uses: docker/build-push-action@v3
+        with:
+          push: true
+          tags: |
+            acbca/minecraft-bedrock:latest
+            acbca/minecraft-bedrock:${{needs.check-version.outputs.version}}
+            acbca/minecraft-bedrock:${{needs.check-version.outputs.version_major}}
+          build-args: |
+            URL=${{needs.check-version.outputs.url}}
+            VERSION=${{needs.check-version.outputs.version}}
+  build-develop:
+    needs: check-version
+    if: github.ref == 'refs/heads/develop'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        # Workaround: https://github.com/docker/build-push-action/issues/461
+      - name: Setup Docker buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build and push
+        uses: docker/build-push-action@v3
+        with:
+          push: true
+          tags: |
+            acbca/minecraft-bedrock:alpha
+            acbca/minecraft-bedrock:alpha-${{needs.check-version.outputs.version}}
+            acbca/minecraft-bedrock:alpha-${{needs.check-version.outputs.version_major}}
+          build-args: |
+            URL=${{needs.check-version.outputs.url}}
+            VERSION=${{needs.check-version.outputs.version}}

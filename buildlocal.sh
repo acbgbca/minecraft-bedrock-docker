@@ -10,6 +10,13 @@ if [ -z "$(ls bedrock-server.zip)" ]; then
     curl $URL --output ./bedrock-server.zip
 fi
 
+MATCHING=$(docker pull acbca/minecraft-bedrock:$VERSION)
+if [ -z "$MATCHING" ]; then
+    echo "No existing version"
+else
+    echo "We have an existing version"
+fi
+
 echo "URL: $URL"
 echo "VERSION: $VERSION"
 echo "MAJOR VERSION: $VERSION_MAJOR"
