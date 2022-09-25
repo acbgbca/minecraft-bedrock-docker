@@ -46,6 +46,7 @@ jobs:
       create: ${{steps.version.outputs.create}}
   debug:
     needs: check-version
+    runs-on: ubuntu-latest
     steps:
       - run: |
           echo "Create: ${{needs.check-version.outputs.create}}
