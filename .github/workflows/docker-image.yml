@@ -75,13 +75,13 @@ jobs:
           tags: |
             acbca/minecraft-bedrock:latest
             acbca/minecraft-bedrock:${{needs.check-version.outputs.version}}
-            acbca/minecraft-bedrock:${{needs.check-version.outputs.major_version}}
+            acbca/minecraft-bedrock:${{needs.check-version.outputs.version_major}}
           build-args: |
             URL=${{needs.check-version.outputs.url}}
             VERSION=${{needs.check-version.outputs.version}}
   build-develop:
     needs: check-version
-    if: github.ref == 'refs/heads/feature/16-github-actions'
+    if: github.ref == 'refs/heads/develop'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -100,7 +100,7 @@ jobs:
           tags: |
             acbca/minecraft-bedrock:alpha
             acbca/minecraft-bedrock:alpha-${{needs.check-version.outputs.version}}
-            acbca/minecraft-bedrock:alpha-${{needs.check-version.outputs.major_version}}
+            acbca/minecraft-bedrock:alpha-${{needs.check-version.outputs.version_major}}
           build-args: |
             URL=${{needs.check-version.outputs.url}}
             VERSION=${{needs.check-version.outputs.version}}
