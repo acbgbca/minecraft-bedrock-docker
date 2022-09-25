@@ -74,11 +74,11 @@ jobs:
           push: true
           tags: |
             acbca/minecraft-bedrock:latest
-            acbca/minecraft-bedrock:${{needs.version.outputs.version}}
-            acbca/minecraft-bedrock:${{needs.version.outputs.major_version}}
+            acbca/minecraft-bedrock:${{needs.check-version.outputs.version}}
+            acbca/minecraft-bedrock:${{needs.check-version.outputs.major_version}}
           build-args: |
-            URL=${{needs.version.outputs.url}}
-            VERSION=${{needs.version.outputs.version}}
+            URL=${{needs.check-version.outputs.url}}
+            VERSION=${{needs.check-version.outputs.version}}
   build-develop:
     needs: check-version
     if: github.ref == 'refs/heads/feature/16-github-actions'
@@ -99,8 +99,8 @@ jobs:
           push: true
           tags: |
             acbca/minecraft-bedrock:alpha
-            acbca/minecraft-bedrock:alpha-${{needs.version.outputs.version}}
-            acbca/minecraft-bedrock:alpha-${{needs.version.outputs.major_version}}
+            acbca/minecraft-bedrock:alpha-${{needs.check-version.outputs.version}}
+            acbca/minecraft-bedrock:alpha-${{needs.check-version.outputs.major_version}}
           build-args: |
-            URL=${{needs.version.outputs.url}}
-            VERSION=${{needs.version.outputs.version}}
+            URL=${{needs.check-version.outputs.url}}
+            VERSION=${{needs.check-version.outputs.version}}
