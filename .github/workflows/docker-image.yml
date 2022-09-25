@@ -44,9 +44,17 @@ jobs:
       version: ${{steps.version.outputs.version}}
       version_major: ${{steps.version.outputs.version_major}}
       create: ${{steps.version.outputs.create}}
+  debug:
+    needs: check-version
+    steps:
+      - run: |
+          echo "Create: ${{needs.check-version.outputs.create}}
+          echo "URL: ${{needs.check-version.outputs.url}}
+          echo "Version: ${{needs.check-version.outputs.version}}
+          echo "Major Version: ${{needs.check-version.outputs.version_major}}
   build-main:
     needs: check-version
-    if: needs.check-version.ouputs.create == 'true'
+    if: needs.check-version.outputs.create == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
