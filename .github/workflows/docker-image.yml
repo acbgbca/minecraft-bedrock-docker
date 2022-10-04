@@ -54,7 +54,7 @@ jobs:
           echo "Major Version: ${{needs.check-version.outputs.version_major}}"
   build-main:
     needs: check-version
-    if: ${{ needs.check-version.outputs.create == 'true' || ( github.ref == 'refs/heads/main' && github.event_name == 'pull_request') }}
+    if: ${{ needs.check-version.outputs.create == 'true' || ( github.ref == 'refs/heads/main' && github.event.pull_request.merged == true) }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
