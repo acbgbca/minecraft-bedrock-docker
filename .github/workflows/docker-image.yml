@@ -52,9 +52,13 @@ jobs:
           echo "URL: ${{needs.check-version.outputs.url}}"
           echo "Version: ${{needs.check-version.outputs.version}}"
           echo "Major Version: ${{needs.check-version.outputs.version_major}}"
+          echo "github.ref: ${{github.ref}}"
+          echo "github.event: ${{github.event}}"
+          echo "github.event.pull_request.merged: ${{github.event.pull_request.merged}}"
+          echo "github.event_name: ${{github.event_name}}"
   build-main:
     needs: check-version
-    if: ${{ needs.check-version.outputs.create == 'true' || ( github.ref == 'refs/heads/main' && github.event.pull_request.merged == true) }}
+    if: ${{ needs.check-version.outputs.create == 'true' || ( github.ref == 'refs/heads/main' && github.event_name == 'push' ) }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
