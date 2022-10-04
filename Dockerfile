@@ -32,7 +32,8 @@ ARG USER_GID
 
 RUN --mount=type=cache,target=/var/cache/apt --mount=type=cache,target=/var/lib/apt \
   apt-get update && apt-get install -y --no-install-recommends \
-    libssl1.1
+    libssl1.1 \
+    libcurl4
 
 RUN umask 0002 \
   && mkdir -p /opt/minecraft \
