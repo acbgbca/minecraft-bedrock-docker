@@ -34,6 +34,7 @@ jobs:
           echo "::set-output name=version::$VERSION"
           echo "::set-output name=version_major::$VERSION_MAJOR"
           echo "::set-output name=create::$CREATE"
+          echo "url=$URL" >> $GITHUB_ENV
           echo "URL: $URL"
           echo "VERSION: $VERSION"
           echo "MAJOR VERSION: $VERSION_MAJOR"
@@ -43,6 +44,7 @@ jobs:
       version: ${{steps.version.outputs.version}}
       version_major: ${{steps.version.outputs.version_major}}
       create: ${{steps.version.outputs.create}}
+      env_url: ${{env.url}}
   debug:
     needs: check-version
     runs-on: ubuntu-latest
@@ -50,6 +52,7 @@ jobs:
       - run: |
           echo "Create: ${{needs.check-version.outputs.create}}"
           echo "URL: ${{needs.check-version.outputs.url}}"
+          echo "ENV URL: ${{needs.check-version.outputs.env_url}}"
           echo "Version: ${{needs.check-version.outputs.version}}"
           echo "Major Version: ${{needs.check-version.outputs.version_major}}"
           echo "github.ref: ${{github.ref}}"
