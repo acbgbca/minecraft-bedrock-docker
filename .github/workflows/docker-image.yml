@@ -50,7 +50,6 @@ jobs:
       - run: |
           echo "Create: ${{needs.check-version.outputs.create}}"
           echo "URL: ${{needs.check-version.outputs.url}}"
-          echo "ENV URL: ${{needs.check-version.outputs.env_url}}"
           echo "Version: ${{needs.check-version.outputs.version}}"
           echo "Major Version: ${{needs.check-version.outputs.version_major}}"
           echo "github.ref: ${{github.ref}}"
