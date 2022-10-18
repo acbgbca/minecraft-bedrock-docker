@@ -30,19 +30,19 @@ jobs:
             CREATE="false"
           fi
           # Store values for use in later stages
-          echo "::set-output name=url::$URL"
-          echo "::set-output name=version::$VERSION"
-          echo "::set-output name=version_major::$VERSION_MAJOR"
-          echo "::set-output name=create::$CREATE"
+          echo "url=$URL" >> $GITHUB_ENV 
+          echo "version=$VERSION" >> $GITHUB_ENV
+          echo "version_major=$VERSION_MAJOR" >> $GITHUB_ENV
+          echo "create=$CREATE" >> $GITHUB_ENV
           echo "URL: $URL"
           echo "VERSION: $VERSION"
           echo "MAJOR VERSION: $VERSION_MAJOR"
           echo "CREATE: $CREATE"
     outputs: 
-      url: ${{steps.version.outputs.url}}
-      version: ${{steps.version.outputs.version}}
-      version_major: ${{steps.version.outputs.version_major}}
-      create: ${{steps.version.outputs.create}}
+      url: ${{env.url}}
+      version: ${{env.version}}
+      version_major: ${{env.version_major}}
+      create: ${{env.create}}
   debug:
     needs: check-version
     runs-on: ubuntu-latest
