@@ -7,6 +7,8 @@ on:
     branches:
       - 'main'
       - 'develop'
+    paths-ignore:
+      - '**.md'
 
 jobs:
   check-version:
@@ -84,7 +86,7 @@ jobs:
       - name: Update readme file
         shell: bash
         run: |
-          sed -i ''s/Current Version: [0-9.]\+/Old Version: ${{needs.check-version.outputs.version}}/g'' readme.md
+          sed -i 's/Current Version: [0-9.]\+/Old Version: ${{needs.check-version.outputs.version}}/g' readme.md
           git add readme.md
           git commit -m "Version ${{needs.check-version.outputs.version}} built"
           git push origin main
@@ -116,7 +118,7 @@ jobs:
       - name: Update readme file
         shell: bash
         run: |
-          sed -i ''s/Current Version: [0-9.]\+/Current Version: ${{needs.check-version.outputs.version}}/g'' readme.md
+          sed -i 's/Current Version: [0-9.]\+/Current Version: ${{needs.check-version.outputs.version}}/g' readme.md
           git add readme.md
           git commit -m "Version ${{needs.check-version.outputs.version}} built"
           git push origin main
