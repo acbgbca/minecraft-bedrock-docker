@@ -81,6 +81,13 @@ jobs:
           build-args: |
             URL=${{needs.check-version.outputs.url}}
             VERSION=${{needs.check-version.outputs.version}}
+      - name: Update readme file
+        shell: bash
+        run: |
+          sed -i ''s/Current Version: [0-9.]\+/Old Version: ${{needs.check-version.outputs.version}}/g'' readme.md
+          git add readme.md
+          git commit -m "Version ${{needs.check-version.outputs.version}} built"
+          git push origin main
   build-develop:
     needs: check-version
     if: github.ref == 'refs/heads/develop'
@@ -106,3 +113,10 @@ jobs:
           build-args: |
             URL=${{needs.check-version.outputs.url}}
             VERSION=${{needs.check-version.outputs.version}}
+      - name: Update readme file
+        shell: bash
+        run: |
+          sed -i ''s/Current Version: [0-9.]\+/Current Version: ${{needs.check-version.outputs.version}}/g'' readme.md
+          git add readme.md
+          git commit -m "Version ${{needs.check-version.outputs.version}} built"
+          git push origin main
