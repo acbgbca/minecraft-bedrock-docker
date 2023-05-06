@@ -86,7 +86,7 @@ jobs:
       - name: Update readme file
         shell: bash
         run: |
-          sed -i 's/Current Version: [0-9.]\+/Old Version: ${{needs.check-version.outputs.version}}/g' readme.md
+          sed -i 's/Current Version: [0-9.]\+/Current Version: ${{needs.check-version.outputs.version}}/g' readme.md
           git config --global user.name 'acbgbca'
           git config --global user.email '60839662+acbgbca@users.noreply.github.com'
           git commit -am "Version ${{needs.check-version.outputs.version}} built"
