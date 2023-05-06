@@ -1,5 +1,7 @@
 [![Minecraft Bedrock Docker](https://github.com/acbgbca/minecraft-bedrock-docker/actions/workflows/docker-image.yml/badge.svg)](https://github.com/acbgbca/minecraft-bedrock-docker/actions/workflows/docker-image.yml)
 
+Current Version: 1.19.81.01
+
 # Minecraft Bedrock Server - Docker Container
 
 A Docker implementation of the [Minecraft Bedrock Server](https://www.minecraft.net/en-us/download/server/bedrock). The container is built by a CI pipeline that checks daily for new versions.
@@ -54,6 +56,7 @@ services:
 # Labels
 
 - ```latest```: always points to the latest version
+- ```1.19```: The latest 1.19 release
 - ```alpha```: used for testing changes to the container
 
 Each container is also tagged with the version of the Bedrock Server it contains.
