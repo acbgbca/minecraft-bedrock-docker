@@ -1,6 +1,6 @@
 [![Minecraft Bedrock Docker](https://github.com/acbgbca/minecraft-bedrock-docker/actions/workflows/docker-image.yml/badge.svg)](https://github.com/acbgbca/minecraft-bedrock-docker/actions/workflows/docker-image.yml)
 
-Current Version: 1.20.1.02
+Current Version: 1.20.11.01
 
 # Minecraft Bedrock Server - Docker Container
 
