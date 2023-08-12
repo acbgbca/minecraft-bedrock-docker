@@ -1,6 +1,4 @@
-[![Minecraft Bedrock Docker](https://github.com/acbgbca/minecraft-bedrock-docker/actions/workflows/docker-image.yml/badge.svg)](https://github.com/acbgbca/minecraft-bedrock-docker/actions/workflows/docker-image.yml)
-
-Current Version: 1.20.14.01
+[![Build](https://github.com/acbgbca/minecraft-bedrock-docker/actions/workflows/docker-image.yml/badge.svg)](https://github.com/acbgbca/minecraft-bedrock-docker/actions/workflows/docker-image.yml) [![1](https://ghcr-badge.egpl.dev/acbgbca/minecraft-bedrock/latest_tag?trim=major)](https://github.com/acbgbca/minecraft-bedrock-docker/pkgs/container/minecraft-bedrock) [![1](https://ghcr-badge.egpl.dev/acbgbca/minecraft-bedrock/size)](https://github.com/acbgbca/minecraft-bedrock-docker/pkgs/container/minecraft-bedrock)
 
 # Minecraft Bedrock Server - Docker Container
 

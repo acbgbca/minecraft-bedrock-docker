@@ -92,14 +92,6 @@ jobs:
           build-args: |
             URL=${{needs.check-version.outputs.url}}
             VERSION=${{needs.check-version.outputs.version}}
-      - name: Update readme file
-        shell: bash
-        run: |
-          sed -i 's/Current Version: [0-9.]\+/Current Version: ${{needs.check-version.outputs.version}}/g' readme.md
-          git config --global user.name 'acbgbca'
-          git config --global user.email '60839662+acbgbca@users.noreply.github.com'
-          git commit -am "Version ${{needs.check-version.outputs.version}} built" || echo "No version change"
-          git push origin main
   build-develop:
     needs: check-version
     if: github.ref == 'refs/heads/develop'
@@ -107,14 +99,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         # Workaround: https://github.com/docker/build-push-action/issues/461
-      - name: Update readme file
-        shell: bash
-        run: |
-          sed -i 's/Current Version: [0-9.]\+/Current Version: ${{needs.check-version.outputs.version}}/g' readme.md
-          git config --global user.name 'acbgbca'
-          git config --global user.email '60839662+acbgbca@users.noreply.github.com'
-          git commit -am "Version ${{needs.check-version.outputs.version}} built" || echo "No version change"
-          git push origin develop
       - name: Setup Docker buildx
         uses: docker/setup-buildx-action@v2
       - name: Login to DockerHub
