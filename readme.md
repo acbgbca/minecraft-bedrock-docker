@@ -4,7 +4,7 @@ Current Version: 1.20.14.01
 
 # Minecraft Bedrock Server - Docker Container
 
-A Docker implementation of the [Minecraft Bedrock Server](https://www.minecraft.net/en-us/download/server/bedrock). The container is built by a CI pipeline that checks daily for new versions.
+A Docker implementation of the [Minecraft Bedrock Server](https://www.minecraft.net/en-us/download/server/bedrock). The container is built by a CI pipeline that checks daily for new versions. Container is available via both [Docker Hub](https://hub.docker.com/r/acbca/minecraft-bedrock) and [GitHub Container Registry](https://github.com/acbgbca/minecraft-bedrock-docker/pkgs/container/minecraft-bedrock).
 
 # To Run
 
@@ -12,12 +12,12 @@ A Docker implementation of the [Minecraft Bedrock Server](https://www.minecraft.
 
 Quick Start
 ```
-docker run -d -e EULA=TRUE -p 19132:19132/udp acbca/minecraft-bedrock
+docker run -d -e EULA=TRUE -p 19132:19132/udp ghcr.io/acbgbca/minecraft-bedrock
 ```
 
 With mounted volumes:
 ```
-docker run -d -e EULA=TRUE -p 19132:19132/udp -v minecraft_config:/config -v minecraft_worlds:/worlds acbca/minecraft-bedrock
+docker run -d -e EULA=TRUE -p 19132:19132/udp -v minecraft_config:/config -v minecraft_worlds:/worlds ghcr.io/acbgbca/minecraft-bedrock
 ```
 
 ## Docker Compose
@@ -26,7 +26,7 @@ docker run -d -e EULA=TRUE -p 19132:19132/udp -v minecraft_config:/config -v min
 version: "3.7"
 services:
   minecraft:
-    image: acbca/minecraft-bedrock:latest
+    image: ghcr.io/acbgbca/minecraft-bedrock:latest
     container_name: minecraft
     environment:
       - EULA=TRUE
@@ -56,9 +56,7 @@ services:
 # Labels
 
 - ```latest```: always points to the latest version
-- ```1.19```: The latest 1.19 release
+- ```1.20```: The latest 1.20 release
 - ```alpha```: used for testing changes to the container
 
-Each container is also tagged with the version of the Bedrock Server it contains.
-
-
+Each container is also tagged with the exact version of the Bedrock Server it contains.
