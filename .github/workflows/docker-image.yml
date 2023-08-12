@@ -86,9 +86,9 @@ jobs:
             acbca/minecraft-bedrock:latest
             acbca/minecraft-bedrock:${{needs.check-version.outputs.version}}
             acbca/minecraft-bedrock:${{needs.check-version.outputs.version_major}}
-            acbgbca/minecraft-bedrock:latest
-            acbgbca/minecraft-bedrock:${{needs.check-version.outputs.version}}
-            acbgbca/minecraft-bedrock:${{needs.check-version.outputs.version_major}}
+            ghcr.io/acbgbca/minecraft-bedrock:latest
+            ghcr.io/acbgbca/minecraft-bedrock:${{needs.check-version.outputs.version}}
+            ghcr.io/acbgbca/minecraft-bedrock:${{needs.check-version.outputs.version_major}}
           build-args: |
             URL=${{needs.check-version.outputs.url}}
             VERSION=${{needs.check-version.outputs.version}}
@@ -136,9 +136,9 @@ jobs:
             acbca/minecraft-bedrock:alpha
             acbca/minecraft-bedrock:alpha-${{needs.check-version.outputs.version}}
             acbca/minecraft-bedrock:alpha-${{needs.check-version.outputs.version_major}}
-            acbgbca/minecraft-bedrock:alpha
-            acbgbca/minecraft-bedrock:alpha-${{needs.check-version.outputs.version}}
-            acbgbca/minecraft-bedrock:alpha-${{needs.check-version.outputs.version_major}}
+            ghcr.io/acbgbca/minecraft-bedrock:alpha
+            ghcr.io/acbgbca/minecraft-bedrock:alpha-${{needs.check-version.outputs.version}}
+            ghcr.io/acbgbca/minecraft-bedrock:alpha-${{needs.check-version.outputs.version_major}}
           build-args: |
             URL=${{needs.check-version.outputs.url}}
             VERSION=${{needs.check-version.outputs.version}}
