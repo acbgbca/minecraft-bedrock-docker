@@ -1,0 +1,22 @@
+---
+version: "2.4"
+services:
+  minecraft-alpha:
+    build:
+      context: .
+      target: app
+      args:
+        - URL=./bedrock-server.zip
+        - VERSION=alpha
+    
+    container_name: minecraft-alpha
+    environment:
+      - EULA=TRUE
+    volumes:
+      - config:/config
+      - worlds:/worlds
+    security_opt:
+      - no-new-privileges:true
+volumes:
+  config:
+  worlds:
