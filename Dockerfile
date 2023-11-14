@@ -1,13 +1,11 @@
 # syntax=docker/dockerfile:1.4
 
-ARG GROUPNAME=mcg
-ARG GROUP_GID=999
 ARG USERNAME=minecraft
 ARG USER_UID=1000
 ARG USER_GID=1000
 ARG DIST=ubuntu
 
-FROM ubuntu:18.04 as download
+FROM ubuntu:22.04 as download
 ARG URL
 ARG GROUPNAME
 ARG GROUP_GID
@@ -23,7 +21,7 @@ ADD $URL ./
 RUN unzip /app/*.zip -d /app/minecraft \
   && rm /app/*.zip
 
-FROM ubuntu:18.04 as base-ubuntu
+FROM ubuntu:22.04 as base-ubuntu
 ARG GROUPNAME
 ARG GROUP_GID
 ARG USERNAME
@@ -32,7 +30,7 @@ ARG USER_GID
 
 RUN --mount=type=cache,target=/var/cache/apt --mount=type=cache,target=/var/lib/apt \
   apt-get update && apt-get install -y --no-install-recommends \
-    libssl1.1 \
+    libssl3 \
     libcurl4
 
 RUN umask 0002 \
@@ -40,12 +38,10 @@ RUN umask 0002 \
   && mkdir -p /opt/minecraft/orig_cfg \
   && mkdir -p /config \
   && mkdir -p /worlds \
-  && groupadd --gid $GROUP_GID $GROUPNAME \
-  && chgrp -R $GROUPNAME /opt/minecraft \
-  && chmod 775 /opt/minecraft /opt/minecraft/orig_cfg /config /worlds \
   && groupadd --gid $USER_GID $USERNAME \
   && useradd --uid $USER_UID --gid $USER_GID -m $USERNAME \
-  && usermod -a -G $GROUPNAME $USERNAME
+  && chown $USERNAME.$USERNAME /opt/minecraft /config /worlds /opt/minecraft/orig_cfg \
+  && chmod 777 /opt/minecraft /opt/minecraft/orig_cfg /config /worlds
 
 FROM base-$DIST as app
 ARG VERSION
@@ -54,7 +50,7 @@ ARG USER_GID
 
 COPY start.sh /opt/minecraft
 
-COPY --from=download --chown=minecraft:mcg --chmod=775 /app/minecraft /opt/minecraft
+COPY --from=download --chown=$USERNAME:$USERNAME --chmod=777 /app/minecraft /opt/minecraft
 
 RUN umask 0002 \
   && mv /opt/minecraft/*.json /opt/minecraft/*.properties /opt/minecraft/orig_cfg/ \
