@@ -3,6 +3,10 @@ name: Minecraft Bedrock Docker
 on:
   schedule:
     - cron: "0 0 * * *"
+  pull_request:
+    branches:
+      - 'main'
+      - 'develop'
   push:
     branches:
       - 'main'
@@ -83,13 +87,13 @@ jobs:
         with:
           context: .
           tags: |
-            acbca/minecraft-bedrock:test
+            acbgbca/minecraft-bedrock:test
           build-args: |
             URL=${{needs.check-version.outputs.url}}
             VERSION=${{needs.check-version.outputs.version}}
       - name: Verify image
         run: |
-          docker run --rm -e EULA=TRUE acbca/minecraft-bedrock:test ./verify.sh
+          docker run --rm -e EULA=TRUE acbgbca/minecraft-bedrock:test ./verify.sh
       - name: Push
         uses: docker/build-push-action@v3
         with:
@@ -104,7 +108,7 @@ jobs:
             ghcr.io/acbgbca/minecraft-bedrock:${{needs.check-version.outputs.version_major}}
   build-develop:
     needs: check-version
-    if: github.ref == 'refs/heads/develop'
+    if: github.ref == 'refs/heads/develop' || github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -127,13 +131,13 @@ jobs:
         with:
           context: .
           tags: |
-            acbca/minecraft-bedrock:test
+            acbgbca/minecraft-bedrock:test
           build-args: |
             URL=${{needs.check-version.outputs.url}}
             VERSION=${{needs.check-version.outputs.version}}
       - name: Verify image
         run: |
-          docker run --rm -e EULA=TRUE acbca/minecraft-bedrock:test ./verify.sh
+          docker run --rm -e EULA=TRUE acbgbca/minecraft-bedrock:test ./verify.sh
       - name: Push
         uses: docker/build-push-action@v3
         with:
