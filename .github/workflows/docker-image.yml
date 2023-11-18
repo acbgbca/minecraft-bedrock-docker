@@ -6,11 +6,9 @@ on:
   pull_request:
     branches:
       - 'main'
-      - 'develop'
   push:
     branches:
       - 'main'
-      - 'develop'
     paths-ignore:
       - '**.md'
 
@@ -110,9 +108,9 @@ jobs:
           build-args: |
             URL=${{needs.check-version.outputs.url}}
             VERSION=${{needs.check-version.outputs.version}}
-  build-develop:
+  build-alpha:
     needs: check-version
-    if: github.ref == 'refs/heads/develop' || github.event_name == 'pull_request'
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
