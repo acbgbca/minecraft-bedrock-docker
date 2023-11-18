@@ -1,4 +1,4 @@
-[![Build](https://github.com/acbgbca/minecraft-bedrock-docker/actions/workflows/docker-image.yml/badge.svg)](https://github.com/acbgbca/minecraft-bedrock-docker/actions/workflows/docker-image.yml) [![1](https://ghcr-badge.egpl.dev/acbgbca/minecraft-bedrock/latest_tag?trim=major)](https://github.com/acbgbca/minecraft-bedrock-docker/pkgs/container/minecraft-bedrock) [![1](https://ghcr-badge.egpl.dev/acbgbca/minecraft-bedrock/size)](https://github.com/acbgbca/minecraft-bedrock-docker/pkgs/container/minecraft-bedrock)
+[![Build](https://github.com/acbgbca/minecraft-bedrock-docker/actions/workflows/docker-image.yml/badge.svg)](https://github.com/acbgbca/minecraft-bedrock-docker/actions/workflows/docker-image.yml) [![1](https://ghcr-badge.egpl.dev/acbgbca/minecraft-bedrock/latest_tag?ignore=latest%2Calpha*)](https://github.com/acbgbca/minecraft-bedrock-docker/pkgs/container/minecraft-bedrock) [![1](https://ghcr-badge.egpl.dev/acbgbca/minecraft-bedrock/size)](https://github.com/acbgbca/minecraft-bedrock-docker/pkgs/container/minecraft-bedrock)
 
 # Minecraft Bedrock Server - Docker Container
 
