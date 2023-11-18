@@ -31,7 +31,8 @@ ARG USER_GID
 RUN --mount=type=cache,target=/var/cache/apt --mount=type=cache,target=/var/lib/apt \
   apt-get update && apt-get install -y --no-install-recommends \
     libssl3 \
-    libcurl4
+    libcurl4 \
+    iproute2
 
 RUN umask 0002 \
   && mkdir -p /opt/minecraft \
@@ -66,6 +67,9 @@ LABEL org.opencontainers.image.source='https://github.com/acbgbca/minecraft-bedr
 ENV UID=$USER_UID
 ENV GID=$USER_GID
 ENV EULA=false
+
+HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
+  CMD ss -ul | grep 19132
 
 VOLUME [ "/worlds", "/config" ]
 EXPOSE 19132
