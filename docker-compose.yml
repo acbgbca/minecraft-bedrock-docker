@@ -17,6 +17,8 @@ services:
       - worlds:/worlds
     security_opt:
       - no-new-privileges:true
+    ports:
+      - 19132:19132/udp
 volumes:
   config:
   worlds:

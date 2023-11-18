@@ -49,7 +49,7 @@ ARG VERSION
 ARG USER_UID
 ARG USER_GID
 
-COPY start.sh /opt/minecraft
+COPY start.sh verify.sh /opt/minecraft/
 
 COPY --from=download --chown=$USERNAME:$USERNAME --chmod=777 /app/minecraft /opt/minecraft
 
