@@ -6,6 +6,10 @@ on:
   pull_request:
     branches:
       - 'main'
+    paths-ignore:
+      - '**.md'
+      - '.github/renovate.json'
+      - '.github/workflows/renovate.yaml'
   push:
     branches:
       - 'main'
