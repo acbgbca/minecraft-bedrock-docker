@@ -5,7 +5,7 @@ ARG USER_UID=1000
 ARG USER_GID=1000
 ARG DIST=ubuntu
 
-FROM ubuntu:22.04 as download
+FROM ubuntu:22.04@sha256:adbb90115a21969d2fe6fa7f9af4253e16d45f8d4c1e930182610c4731962658 as download
 ARG URL
 ARG GROUPNAME
 ARG GROUP_GID
@@ -21,7 +21,7 @@ ADD $URL ./
 RUN unzip /app/*.zip -d /app/minecraft \
   && rm /app/*.zip
 
-FROM ubuntu:22.04 as base-ubuntu
+FROM ubuntu:22.04@sha256:adbb90115a21969d2fe6fa7f9af4253e16d45f8d4c1e930182610c4731962658 as base-ubuntu
 ARG GROUPNAME
 ARG GROUP_GID
 ARG USERNAME
