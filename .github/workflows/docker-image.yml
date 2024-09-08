@@ -11,6 +11,8 @@ on:
       - 'main'
     paths-ignore:
       - '**.md'
+      - '.github/renovate.json'
+      - '.github/workflows/renovate.yaml'
 
 jobs:
   check-version:
