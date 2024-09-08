@@ -8,5 +8,6 @@
         "acbgbca"
     ],
     "configMigration": true,
-    "commitBodyTable": true
+    "commitBodyTable": true,
+    "automergeStrategy": "fast-forward"
 }
