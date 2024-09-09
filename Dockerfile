@@ -4,6 +4,7 @@ ARG USERNAME=minecraft
 ARG USER_UID=1000
 ARG USER_GID=1000
 ARG DIST=ubuntu
+ARG DEBIAN_FRONTEND=noninteractive
 
 FROM ubuntu:22.04@sha256:adbb90115a21969d2fe6fa7f9af4253e16d45f8d4c1e930182610c4731962658 AS download
 ARG URL
@@ -12,9 +13,10 @@ ARG GROUP_GID
 ARG USERNAME
 ARG USER_UID
 ARG USER_GID
+ARG DEBIAN_FRONTEND
 WORKDIR /app
 
-RUN apt-get update && apt-get install -y --no-install-recommends unzip
+RUN apt-get -qq update && apt-get -qq install -y --no-install-recommends unzip
 
 ADD $URL ./
 
@@ -27,9 +29,10 @@ ARG GROUP_GID
 ARG USERNAME
 ARG USER_UID
 ARG USER_GID
+ARG DEBIAN_FRONTEND
 
 RUN --mount=type=cache,target=/var/cache/apt --mount=type=cache,target=/var/lib/apt \
-  apt-get update && apt-get install -y --no-install-recommends \
+    apt-get -qq update && apt-get -qq install -y --no-install-recommends \
     libssl3 \
     libcurl4 \
     iproute2
