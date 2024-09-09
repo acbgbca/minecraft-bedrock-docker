@@ -7,14 +7,20 @@ if [ "$EULA" != TRUE ]; then
   exit 1
 fi
 
-# Setup user
-umask 0002
-USER=minecraft
-UID=${UID:-1000}
-GID=${GID:-1000}
+echo "Started as $EUID"
 
-groupmod -o -g "$GID" $USER
-usermod -o -u "$UID" $USER
+# If we are running as root, setup user
+if [ $EUID == 0 ]; then
+  umask 0002
+  USER=minecraft
+  UID=${UID:-1000}
+  GID=${GID:-1000}
+
+  echo "Setting user $USER to $UID:$GID"
+
+  groupmod -o -g "$GID" $USER
+  usermod -o -u "$UID" $USER
+fi
 
 # If the config directory is empty, initialise with the contents from orig_cfg
 if [ -z "$(ls /config)" ]; then
@@ -26,4 +32,11 @@ fi
 # Create symbolic links from the files in /config to the minecraft directory
 ln -sf /config/* /opt/minecraft
 
-su -c "export LD_LIBRARY_PATH=. && umask 0002 && exec ./bedrock_server" $USER
+if [ $EUID == 0 ]; then
+  echo "Running as $USER"
+  su -c "export LD_LIBRARY_PATH=. && umask 0002 && exec ./bedrock_server" $USER
+else
+  export LD_LIBRARY_PATH=.
+  umask 0002
+  exec ./bedrock_server
+fi

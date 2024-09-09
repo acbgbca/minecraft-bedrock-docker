@@ -8,17 +8,16 @@ services:
       args:
         - URL=./bedrock-server.zip
         - VERSION=alpha
-    
+    # user: 1000:1000
     container_name: minecraft-alpha
     environment:
       - EULA=TRUE
+      # - UID=1000
+      # - GID=1000
     volumes:
-      - config:/config
-      - worlds:/worlds
+      - ./config:/config
+      - ./worlds:/worlds
     security_opt:
       - no-new-privileges:true
     ports:
       - 19132:19132/udp
-volumes:
-  config:
-  worlds:

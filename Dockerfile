@@ -70,6 +70,7 @@ LABEL org.opencontainers.image.source='https://github.com/acbgbca/minecraft-bedr
 ENV UID=$USER_UID
 ENV GID=$USER_GID
 ENV EULA=false
+ENV VERSION=$VERSION
 
 HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
   CMD ss -ul | grep 19132
