@@ -5,7 +5,7 @@ ARG USER_UID=1000
 ARG USER_GID=1000
 ARG DIST=ubuntu
 
-FROM ubuntu:22.04@sha256:adbb90115a21969d2fe6fa7f9af4253e16d45f8d4c1e930182610c4731962658 as download
+FROM ubuntu:22.04@sha256:adbb90115a21969d2fe6fa7f9af4253e16d45f8d4c1e930182610c4731962658 AS download
 ARG URL
 ARG GROUPNAME
 ARG GROUP_GID
@@ -18,10 +18,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends unzip
 
 ADD $URL ./
 
-RUN unzip /app/*.zip -d /app/minecraft \
+RUN unzip -q /app/*.zip -d /app/minecraft \
   && rm /app/*.zip
 
-FROM ubuntu:22.04@sha256:adbb90115a21969d2fe6fa7f9af4253e16d45f8d4c1e930182610c4731962658 as base-ubuntu
+FROM ubuntu:22.04@sha256:adbb90115a21969d2fe6fa7f9af4253e16d45f8d4c1e930182610c4731962658 AS base-ubuntu
 ARG GROUPNAME
 ARG GROUP_GID
 ARG USERNAME
@@ -44,7 +44,7 @@ RUN umask 0002 \
   && chown $USERNAME.$USERNAME /opt/minecraft /config /worlds /opt/minecraft/orig_cfg \
   && chmod 777 /opt/minecraft /opt/minecraft/orig_cfg /config /worlds
 
-FROM base-$DIST as app
+FROM base-$DIST AS app
 ARG VERSION
 ARG USER_UID
 ARG USER_GID
