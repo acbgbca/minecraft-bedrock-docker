@@ -61,12 +61,6 @@ RUN umask 0002 \
   && rm -df /opt/minecraft/worlds \
   && ln -s /worlds /opt/minecraft/worlds
 
-LABEL org.opencontainers.image.source='https://github.com/acbgbca/minecraft-bedrock-docker' \
-      org.opencontainers.image.documentation='https://github.com/acbgbca/minecraft-bedrock-docker' \
-      org.opencontainers.image.title='Minecraft Bedrock Server - Docker' \
-      org.opencontainers.image.version=$VERSION \
-      org.opencontainers.image.base.name=docker.io/ubuntu:18.04
-
 ENV UID=$USER_UID
 ENV GID=$USER_GID
 ENV EULA=false
