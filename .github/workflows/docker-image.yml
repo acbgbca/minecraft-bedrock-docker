@@ -83,6 +83,9 @@ jobs:
           labels: |
             org.opencontainers.image.title=Minecraft Bedrock Server - Docker
             org.opencontainers.image.version=${{needs.check-version.outputs.version}}
+          annotations: |
+            org.opencontainers.image.title=Minecraft Bedrock Server - Docker
+            org.opencontainers.image.version=${{needs.check-version.outputs.version}}
       - name: Setup Docker buildx
         uses: docker/setup-buildx-action@v3.6.1
       - name: Login to DockerHub
@@ -141,6 +144,9 @@ jobs:
             acbgbca/minecraft-bedrock-docker
             ghcr.io/acbgbca/minecraft-bedrock-docker
           labels: |
+            org.opencontainers.image.title=Minecraft Bedrock Server - Docker
+            org.opencontainers.image.version=${{needs.check-version.outputs.version}}
+          annotations: |
             org.opencontainers.image.title=Minecraft Bedrock Server - Docker
             org.opencontainers.image.version=${{needs.check-version.outputs.version}}
       - name: Setup Docker buildx
