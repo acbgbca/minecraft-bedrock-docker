@@ -42,8 +42,8 @@ RUN umask 0002 \
   && mkdir -p /opt/minecraft/orig_cfg \
   && mkdir -p /config \
   && mkdir -p /worlds \
-  && groupadd --gid $USER_GID $USERNAME \
-  && useradd --uid $USER_UID --gid $USER_GID -m $USERNAME \
+# From ubuntu 23 there is already a 1000 user created with the name 'ubuntu'
+  && if id -u $USER_UID; then usermod -l $USERNAME ubuntu; groupmod -n $USERNAME ubuntu; else groupadd --gid $USER_GID $USERNAME; useradd --uid $USER_UID --gid $USER_GID -m $USERNAME; fi \
   && chown $USERNAME.$USERNAME /opt/minecraft /config /worlds /opt/minecraft/orig_cfg \
   && chmod 777 /opt/minecraft /opt/minecraft/orig_cfg /config /worlds
 
