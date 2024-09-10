@@ -10,7 +10,7 @@ on:
       - '**.md'
       - '.github/renovate.json'
       - '.github/workflows/renovate.yaml'
-      - '.devcontainer/*'
+      - '.devcontainer/**'
   push:
     branches:
       - 'main'
@@ -18,7 +18,7 @@ on:
       - '**.md'
       - '.github/renovate.json'
       - '.github/workflows/renovate.yaml'
-      - '.devcontainer/*'
+      - '.devcontainer/**'
 
 jobs:
   check-version:
