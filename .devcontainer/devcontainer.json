@@ -3,7 +3,7 @@
 {
 	"name": "Minecraft Bedrock Docker",
 	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-	"image": "mcr.microsoft.com/devcontainers/base:1.1.5-ubuntu",
+	"image": "mcr.microsoft.com/devcontainers/base:1.2.0-ubuntu",
 
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	"features": {
