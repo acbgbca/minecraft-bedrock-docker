@@ -16,9 +16,9 @@ ARG USER_GID
 ARG DEBIAN_FRONTEND
 WORKDIR /app
 
-RUN apt-get -qq update && apt-get -qq install -y --no-install-recommends unzip
+RUN apt-get -qq update && apt-get -qq install -y --no-install-recommends unzip curl ca-certificates
 
-ADD $URL ./
+RUN curl -H "user-agent: user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36" $URL --output ./bedrock-server.zip
 
 RUN unzip -q /app/*.zip -d /app/minecraft \
   && rm /app/*.zip
