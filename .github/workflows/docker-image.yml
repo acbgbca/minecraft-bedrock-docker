@@ -31,7 +31,7 @@ jobs:
           set -x
           # Don't die on error (docker pull returns an error if the version doesn't exist)
           set +e
-          URL=`curl -H "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36" https://www.minecraft.net/en-us/download/server/bedrock|grep -o "https://minecraft.azureedge.net/bin-linux/bedrock-server-.*.zip"`
+          URL=`curl -H "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36" https://www.minecraft.net/en-us/download/server/bedrock|grep -o "https://www.minecraft.net/bedrockdedicatedserver/bin-linux/bedrock-server-.*.zip"`
           VERSION=`echo $URL|grep -o "[0-9.]*[0-9]"`
           VERSION_MAJOR=`echo $VERSION|grep -o "[0-9]*\.[0-9]*"|head -1`
           # Check for version
