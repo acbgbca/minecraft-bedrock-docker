@@ -102,7 +102,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build
-        uses: docker/build-push-action@v6.7.0
+        uses: docker/build-push-action@v6.8.0
         with:
           context: .
           load: true
@@ -115,7 +115,7 @@ jobs:
         run: |
           docker run --rm -e EULA=TRUE acbgbca/minecraft-bedrock:test ./verify.sh
       - name: Push
-        uses: docker/build-push-action@v6.7.0
+        uses: docker/build-push-action@v6.8.0
         with:
           context: .
           push: true
@@ -165,7 +165,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build
-        uses: docker/build-push-action@v6.7.0
+        uses: docker/build-push-action@v6.8.0
         with:
           context: .
           load: true
@@ -178,7 +178,7 @@ jobs:
         run: |
           docker run --rm -e EULA=TRUE acbgbca/minecraft-bedrock:test ./verify.sh
       - name: Push
-        uses: docker/build-push-action@v6.7.0
+        uses: docker/build-push-action@v6.8.0
         with:
           context: .
           push: true
