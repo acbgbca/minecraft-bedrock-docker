@@ -1,4 +1,4 @@
-# syntax=docker/dockerfile:1.12
+# syntax=docker/dockerfile:1.13
 
 ARG USERNAME=minecraft
 ARG USER_UID=1000
