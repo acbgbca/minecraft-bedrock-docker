@@ -6,7 +6,7 @@ ARG USER_GID=1000
 ARG DIST=ubuntu
 ARG DEBIAN_FRONTEND=noninteractive
 
-FROM ubuntu:24.04@sha256:440dcf6a5640b2ae5c77724e68787a906afb8ddee98bf86db94eea8528c2c076 AS download
+FROM ubuntu:24.04@sha256:a328b84b92f71a85f459722a1c73c0363f9f8e3f66bf74a204bb35c605cf670c AS download
 ARG URL
 ARG GROUPNAME
 ARG GROUP_GID
@@ -23,7 +23,7 @@ RUN curl -H "user-agent: user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) A
 RUN unzip -q /app/*.zip -d /app/minecraft \
   && rm /app/*.zip
 
-FROM ubuntu:24.04@sha256:440dcf6a5640b2ae5c77724e68787a906afb8ddee98bf86db94eea8528c2c076 AS base-ubuntu
+FROM ubuntu:24.04@sha256:a328b84b92f71a85f459722a1c73c0363f9f8e3f66bf74a204bb35c605cf670c AS base-ubuntu
 ARG GROUPNAME
 ARG GROUP_GID
 ARG USERNAME
