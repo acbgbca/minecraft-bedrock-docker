@@ -3,7 +3,8 @@
     "extends": [
         "config:recommended",
         "docker:enableMajor",
-        "group:all"
+        "group:all",
+        "schedule:weekly"
     ],
     "assignees": [
         "acbgbca"
@@ -12,5 +13,6 @@
     "commitBodyTable": true,
     "automergeStrategy": "fast-forward",
     "commitMessagePrefix": "[Renovate] ",
-    "automerge": true
+    "automerge": true,
+    "automergeSchedule": ["* * * * *"]
 }
