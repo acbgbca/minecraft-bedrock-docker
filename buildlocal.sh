@@ -5,7 +5,7 @@ set -e
 target=${1:-app}
 
 export USER_AGENT="user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36"
-export URL=`curl -H "user-agent: $USER_AGENT" https://www.minecraft.net/en-us/download/server/bedrock|grep -o "https://www.minecraft.net/bedrockdedicatedserver/bin-linux/bedrock-server-.*.zip"`
+export URL=`curl https://net-secondary.web.minecraft-services.net/api/v1.0/download/links|grep -o "https://www.minecraft.net/bedrockdedicatedserver/bin-linux/bedrock-server-.*.zip"`
 export VERSION=`echo $URL|grep -o "[0-9.]*[0-9]"`
 export VERSION_MAJOR=`echo $VERSION|grep -o "[0-9]*\.[0-9]*"|head -1`
 
