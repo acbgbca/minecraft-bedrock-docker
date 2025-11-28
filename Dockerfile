@@ -34,8 +34,10 @@ ARG DEBIAN_FRONTEND
 RUN --mount=type=cache,target=/var/cache/apt --mount=type=cache,target=/var/lib/apt \
     apt-get -qq update && apt-get -qq install -y --no-install-recommends \
     libssl3 \
+    openssl \
     libcurl4 \
-    iproute2
+    iproute2 \
+    ca-certificates
 
 RUN umask 0002 \
   && mkdir -p /opt/minecraft \
