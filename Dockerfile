@@ -1,4 +1,4 @@
-# syntax=docker/dockerfile:1.24@sha256:87999aa3d42bdc6bea60565083ee17e86d1f3339802f543c0d03998580f9cb89
+# syntax=docker/dockerfile:1.25@sha256:0adf442eae370b6087e08edc7c50b552d80ddf261576f4ebd6421006b2461f12
 
 ARG USERNAME=minecraft
 ARG USER_UID=1000
@@ -6,7 +6,7 @@ ARG USER_GID=1000
 ARG DIST=ubuntu
 ARG DEBIAN_FRONTEND=noninteractive
 
-FROM ubuntu:26.04@sha256:f3d28607ddd78734bb7f71f117f3c6706c666b8b76cbff7c9ff6e5718d46ff64 AS download
+FROM ubuntu:26.04@sha256:53958ec7b67c2c9355df922dd08dbf0360611f8c3cdb656875e81873db9ffdba AS download
 ARG URL
 ARG GROUPNAME
 ARG GROUP_GID
@@ -23,7 +23,7 @@ RUN curl -H "user-agent: user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) A
 RUN unzip -q /app/*.zip -d /app/minecraft \
   && rm /app/*.zip
 
-FROM ubuntu:26.04@sha256:f3d28607ddd78734bb7f71f117f3c6706c666b8b76cbff7c9ff6e5718d46ff64 AS base-ubuntu
+FROM ubuntu:26.04@sha256:53958ec7b67c2c9355df922dd08dbf0360611f8c3cdb656875e81873db9ffdba AS base-ubuntu
 ARG GROUPNAME
 ARG GROUP_GID
 ARG USERNAME
