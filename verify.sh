@@ -5,7 +5,7 @@
 
 # Wait up to 60 seconds for the server to start
 SECONDS=0
-until ss -ul | grep 19132
+until ss -ul | tee /dev/stdout | grep 19132
 do
   
   if (( SECONDS > 60 ))
