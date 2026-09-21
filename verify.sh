@@ -14,9 +14,9 @@ do
      exit 1
   fi
   
-  echo -e "Bedrock server is not up yet. Waiting..."
+  echo "Bedrock server is not up yet. Waiting..."
 
-  echo "\n Running processes:"
+  echo -e "\n Running processes:"
   ps
 
   echo -e "\n Open Ports:"
