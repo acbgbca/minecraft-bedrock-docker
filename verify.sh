@@ -5,7 +5,7 @@
 
 # Wait up to 60 seconds for the server to start
 SECONDS=0
-until ss -ul | grep 19132
+until ss -tulnp | grep 19132
 do
   
   if (( SECONDS > 60 ))
@@ -13,7 +13,14 @@ do
      echo "Giving up..."
      exit 1
   fi
+  
+  echo -e "Bedrock server is not up yet. Waiting..."
 
-  echo "Bedrock server is not up yet. Waiting..."
+  echo "\n Running processes:"
+  ps
+
+  echo -e "\n Open Ports:"
+  ss -tulnp
+
   sleep 5
 done
