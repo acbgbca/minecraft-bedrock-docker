@@ -14,12 +14,12 @@ do
      exit 1
   fi
   
-  echo "Bedrock server is not up yet. Waiting..."
+  echo -e "Bedrock server is not up yet. Waiting..."
 
   echo "\n Running processes:"
   ps
 
-  echo "\n Open Ports:"
+  echo -e "\n Open Ports:"
   ss -tulnp
 
   sleep 5
